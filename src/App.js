@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useFetchData } from "./hooks/useFetchData";
 function App() {
+  const BASE_URL = "https://dog.ceo/api/breeds/image/random";
+  const { isLoading, data, error, fetchMoreData } = useFetchData(BASE_URL);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <button onClick={fetchMoreData}>Fetch More Data</button>
+      <h1>Custom hook to fetch data</h1>
+      {isLoading ? (
+        <h2>Loading...</h2>
+      ) : data?.message ? (
+        <img
+          style={{ width: "500px", height: "500px" }}
+          src={data?.message}
+          alt='dog'
+        />
+      ) : (
+        <h2>{error}</h2>
+      )}
     </div>
   );
 }
